@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jurnal Mengajar - SD Negeri 016 Palaran</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===================== HALAMAN LOGIN ===================== -->
+  <section id="loginView" class="login-wrap">
+    <div class="login-card">
+      <div class="logo">📘</div>
+      <h1>Jurnal Mengajar</h1>
+      <h2>SD Negeri 016 Palaran</h2>
+      <p class="muted small">Jl. Parikesit RT 09 Handil Bakti, Palaran<br />sdnegeri016.palaran@gmail.com</p>
+
+      <form id="loginForm" autocomplete="off">
+        <label for="loginNama">Nama Pengguna</label>
+        <select id="loginNama" required></select>
+
+        <label for="loginPass">Password</label>
+        <input type="password" id="loginPass" placeholder="Masukkan password" required />
+
+        <p id="loginError" class="error" hidden></p>
+        <button type="submit" class="btn btn-primary btn-block">Masuk</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===================== HALAMAN APLIKASI ===================== -->
+  <section id="appView" hidden>
+    <header class="topbar no-print">
+      <div class="brand">
+        <div class="logo-sm">📘</div>
+        <div>
+          <strong>Jurnal Mengajar</strong>
+          <div class="small">SD Negeri 016 Palaran</div>
+        </div>
+      </div>
+      <div class="user-box">
+        <div class="user-info">
+          <strong id="userName"></strong>
+          <span class="small" id="userRole"></span>
+        </div>
+        <button id="btnLogout" class="btn btn-danger">Keluar</button>
+      </div>
+    </header>
+
+    <main class="container">
+
+      <!-- Kop untuk cetak PDF -->
+      <div class="print-only print-head">
+        <h2>JURNAL MENGAJAR</h2>
+        <h3>SD NEGERI 016 PALARAN</h3>
+        <p>Jl. Parikesit RT 09 Handil Bakti, Palaran | sdnegeri016.palaran@gmail.com</p>
+        <hr />
+        <p id="printMeta"></p>
+      </div>
+
+      <!-- FORM GURU -->
+      <section id="formCard" class="card no-print">
+        <h3 id="formTitle">Isi Jurnal Hari Ini</h3>
+        <form id="jurnalForm">
+          <div class="grid">
+            <div>
+              <label for="fTanggal">Tanggal</label>
+              <input type="date" id="fTanggal" required />
+            </div>
+            <div>
+              <label for="fHari">Hari</label>
+              <input type="text" id="fHari" readonly />
+            </div>
+
+            <div id="boxMapel">
+              <label for="fMapel">Mata Pelajaran</label>
+              <select id="fMapel"></select>
+              <input type="text" id="fMapelLain" placeholder="Tulis mata pelajaran / kegiatan lain" hidden />
+            </div>
+            <div id="boxKelasPilih" hidden>
+              <label for="fKelasPilih">Kelas</label>
+              <select id="fKelasPilih"></select>
+            </div>
+            <div id="boxKelasAuto">
+              <label for="fKelas">Kelas</label>
+              <input type="text" id="fKelas" readonly />
+            </div>
+
+            <div class="span2">
+              <label for="fMateri">Materi Pembelajaran</label>
+              <textarea id="fMateri" rows="2" required></textarea>
+            </div>
+
+            <div>
+              <label for="fHadir">Siswa Hadir</label>
+              <input type="number" id="fHadir" min="0" value="0" required />
+            </div>
+            <div>
+              <label for="fTidakHadir">Siswa Tidak Hadir</label>
+              <input type="number" id="fTidakHadir" min="0" value="0" required />
+            </div>
+
+            <div class="span2">
+              <label for="fRefleksi">Refleksi Guru <span class="muted small">(minimal 50 karakter)</span></label>
+              <textarea id="fRefleksi" rows="3" required></textarea>
+              <div id="charCount" class="small muted">0 / 50 karakter</div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan Jurnal</button>
+            <button type="button" class="btn btn-ghost" id="btnBatal" hidden>Batal Edit</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- DAFTAR JURNAL -->
+      <section class="card">
+        <div class="list-head no-print">
+          <h3 id="listTitle">Riwayat Jurnal</h3>
+          <div class="actions">
+            <button id="btnKirim" class="btn btn-success">📤 Kirim ke Kepala Sekolah</button>
+            <button id="btnPrint" class="btn btn-outline">🖨️ Print PDF</button>
+          </div>
+        </div>
+
+        <div class="filters no-print">
+          <div>
+            <label for="fDari">Dari Tanggal</label>
+            <input type="date" id="fDari" />
+          </div>
+          <div>
+            <label for="fSampai">Sampai Tanggal</label>
+            <input type="date" id="fSampai" />
+          </div>
+          <div id="boxFilterGuru" hidden>
+            <label for="fGuru">Guru</label>
+            <select id="fGuru"></select>
+          </div>
+          <div class="filter-btn">
+            <button id="btnReset" class="btn btn-ghost" type="button">Reset</button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table id="tabel">
+            <thead></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <p id="kosong" class="muted center" hidden>Belum ada data jurnal pada rentang tanggal ini.</p>
+      </section>
+    </main>
+
+    <footer class="footer no-print">
+      <strong>SD Negeri 016 Palaran</strong><br />
+      Alamat: Jl. Parikesit RT 09 Handil Bakti, Palaran · Email: sdnegeri016.palaran@gmail.com
+    </footer>
+  </section>
+
+  <div id="toast" class="toast" hidden></div>
+  <script src="app.js"></script>
+</body>
+</html>
